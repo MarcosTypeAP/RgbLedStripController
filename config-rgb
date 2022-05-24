@@ -1,0 +1,25 @@
+#!/bin/bash
+
+stty 9600 -F /dev/ttyUSB0 raw -echo
+stty -F /dev/ttyUSB0 -hupcl
+
+case $1 in
+
+	--hex)
+		red=$(echo "ibase=16; ${2^^}"|bc)
+		green=$(echo "ibase=16; ${3^^}"|bc)
+		blue=$(echo "ibase=16; ${4^^}"|bc)
+		;;
+	--dec)
+		red=$2; green=$3; blue=$4
+		;;
+	-d)
+		red="d"; green=""; blue=""
+		;;
+	*)
+		red=0; green=0; blue=0
+		;;
+
+esac
+
+echo $red $green $blue > /dev/ttyUSB0
