@@ -1,2 +1,3 @@
 # RgbLedStripController
-An Arduino sketch to make a rgb strip handler, controlled by command line. 
+
+<img src="https://i.ibb.co/0Mr9sVS/rgb-led-strip-controller.png">
