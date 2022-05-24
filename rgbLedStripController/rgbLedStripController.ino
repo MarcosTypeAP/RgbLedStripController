@@ -1,18 +1,25 @@
+// Config section
+///////////////////////////////////////////////////
 const int LED_R = 11;
 const int LED_G = 10;
 const int LED_B = 9;
-const int ON_BTN = 3;
-boolean IS_RGB_ON = false;
-boolean SERIAL_CONTROL_ENABLED = true;
+const int BUTTON = 3;
+const int DEFAULT_R = 255;
+const int DEFAULT_G = 70;
+const int DEFAULT_B = 15;
+///////////////////////////////////////////////////
+
+boolean is_strip_on = false;
+boolean serial_control_enabled = true;
 
 void setRGB(int red, int green, int blue) {
 	analogWrite(LED_R, red);
 	analogWrite(LED_G, green);
 	analogWrite(LED_B, blue);
 	if (!red && !green && !blue) {
-		IS_RGB_ON = false;
+		is_strip_on = false;
 	} else {
-		IS_RGB_ON = true;
+		is_strip_on = true;
 	}
 }
 
@@ -35,19 +42,19 @@ void setup() {
 	pinMode(LED_R, OUTPUT);
 	pinMode(LED_G, OUTPUT);
 	pinMode(LED_B, OUTPUT);
-	pinMode(ON_BTN, INPUT_PULLUP);
+	pinMode(BUTTON, INPUT_PULLUP);
 	Serial.begin(9600);
 }
 
 void loop() {
 
-	if (!digitalRead(ON_BTN)) {
+	if (!digitalRead(BUTTON)) {
 		int counter = 0;
-		while (!digitalRead(ON_BTN)) {
+		while (!digitalRead(BUTTON)) {
 			counter++;
 			if (counter == 20) {
-				SERIAL_CONTROL_ENABLED = !SERIAL_CONTROL_ENABLED;
-				SERIAL_CONTROL_ENABLED ? blink(1) : blink(2);
+				serial_control_enabled = !serial_control_enabled;
+				serial_control_enabled ? blink(1) : blink(2);
 			}
 			delay(50);
 		}
@@ -56,24 +63,18 @@ void loop() {
 			return;
 		}
 
-		if (IS_RGB_ON) {
-			setRGB(0, 0, 0);
-			IS_RGB_ON = false;
-		} else {
-			setRGB(255, 70, 15);
-			IS_RGB_ON = true;
-		}
+		is_strip_on ? setRGB(0, 0, 0) : setRGB(DEFAULT_R, DEFAULT_G, DEFAULT_B);
 		delay(200);
 	}
 
 	if (Serial.available() > 0) {
 
-		if (!SERIAL_CONTROL_ENABLED) return;
+		if (!serial_control_enabled) return;
 
 		char action = Serial.peek();
 
 		if (action == 'd') {  // disable serial control
-			SERIAL_CONTROL_ENABLED = false;
+			serial_control_enabled = false;
 			blink(2);
 			serialFlush();
 			return;
