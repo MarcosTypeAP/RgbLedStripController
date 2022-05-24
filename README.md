@@ -1,6 +1,6 @@
 # RgbLedStripController
 
-This project is an **alternative** to the **RF controller** that comes with **LED strips**, with this you can control the strip by **serial communication** using a command line program.
+This project is an **alternative** to the **RF controller** that comes with **LED strips**, with this you can control the strip by **serial communication** using a command line program, also you can select an specific color in RGB format. 
 
 Scheme and Components
 ---------------------
@@ -33,7 +33,7 @@ You also need to install [**Arduino IDE**](https://www.arduino.cc/en/software) a
 
 #### Config controller
 
-You can change used **Pins** and **Defautl Color** modifing the project's first lines:
+You can adapt the sketch to your board and change the defautl strip color modifing the first lines of `rgbLedStripController.ino`:
 
 ```c
 // Config section
@@ -42,7 +42,7 @@ const int LED_R = 11;          // Red LED Pin
 const int LED_G = 10;          // Green LED Pin
 const int LED_B = 9;           // Blue LED Pin
 const int BUTTON = 3;          // Button Pin
-const int DEFAULT_R = 255; 	   // Default Red value
+const int DEFAULT_R = 255;     // Default Red value
 const int DEFAULT_G = 70;      // Default Green value
 const int DEFAULT_B = 15;      // Default Blue value
 const int PWM_RESOLUTION = 8;  // PWM resolution in Bits
