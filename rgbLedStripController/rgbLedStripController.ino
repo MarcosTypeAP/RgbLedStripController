@@ -1,14 +1,16 @@
 // Config section
-///////////////////////////////////////////////////
-const int LED_R = 11;
-const int LED_G = 10;
-const int LED_B = 9;
-const int BUTTON = 3;
-const int DEFAULT_R = 255;
-const int DEFAULT_G = 70;
-const int DEFAULT_B = 15;
-///////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+const int LED_R = 11;          // Red LED Pin
+const int LED_G = 10;          // Green LED Pin
+const int LED_B = 9;           // Blue LED Pin
+const int BUTTON = 3;          // Button Pin
+const int DEFAULT_R = 255; 	   // Default Red value
+const int DEFAULT_G = 70;      // Default Green value
+const int DEFAULT_B = 15;      // Default Blue value
+const int PWM_RESOLUTION = 8;  // PWM resolution in Bits
+///////////////////////////////////////////////////////////
 
+const int MAX_PWM_VALUE = pow(2, PWM_RESOLUTION) - 1;
 boolean is_strip_on = false;
 boolean serial_control_enabled = true;
 
@@ -25,7 +27,7 @@ void setRGB(int red, int green, int blue) {
 
 void blink(int k, int time_on=200, int time_off=300) {
 	for (int i=1; i<=k; i++) {
-		setRGB(255, 0, 0);
+		setRGB(MAX_PWM_VALUE, 0, 0);
 		delay(time_on);
 		setRGB(0, 0, 0);
 		delay(time_off);
@@ -86,9 +88,9 @@ void loop() {
 
 		if (Serial.read() == '\n') {
 
-			red = constrain(red, 0, 255);
-			green = constrain(green, 0, 255);
-			blue = constrain(blue, 0, 255);
+			red = constrain(red, 0, MAX_PWM_VALUE);
+			green = constrain(green, 0, MAX_PWM_VALUE);
+			blue = constrain(blue, 0, MAX_PWM_VALUE);
 
 			setRGB(red, green, blue);
 		
