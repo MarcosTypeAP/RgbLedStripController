@@ -27,7 +27,7 @@ void setRGB(int red, int green, int blue) {
 
 void blink(int k, int time_on=200, int time_off=300) {
 	for (int i=1; i<=k; i++) {
-		setRGB(MAX_PWM_VALUE, 0, 0);
+		setRGB(MAX_PWM_VALUE / 4, 0, 0);
 		delay(time_on);
 		setRGB(0, 0, 0);
 		delay(time_off);
